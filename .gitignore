@@ -1,0 +1,84 @@
+# Environment & Secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+*.p8
+secrets.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+build/
+dist/
+*.egg-info/
+*.egg
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+
+# Testing & Coverage
+.pytest_cache/
+.tox/
+.coverage
+.coverage.*
+htmlcov/
+
+# Type Checking & Linting
+.mypy_cache/
+.dmypy.json
+.ruff_cache/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# AI Tools & Agents
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+**/AGENTS.md
+.agent/
+.agents/
+_agent/
+_agents/
+.claude/
+.copilot/
+.gemini/
+.cody/
+.windsurf/
+claude_cache/
+copilot_cache/
+gemini_cache/
+antigravity_cache/
+*.log
+antigravity.log
+
+# Database
+*.sqlite3
+*.db
+*.sqlite
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.bak
+*.log
+*.tar.gz
