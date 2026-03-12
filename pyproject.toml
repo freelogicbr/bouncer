@@ -25,6 +25,11 @@ dev = [
   "ruff==0.3.0",
 ]
 
+[project.urls]
+Homepage = "https://github.com/freelogicbr/bouncer"
+Repository = "https://github.com/freelogicbr/bouncer"
+Issues = "https://github.com/freelogicbr/bouncer/issues"
+
 [project.scripts]
 bouncer = "bouncer.__main__:main"
 

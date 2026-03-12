@@ -1,0 +1,52 @@
+name: "Feature Request / Solicitacao de Funcionalidade"
+description: "Suggest an improvement or new feature / Sugira uma melhoria ou nova funcionalidade"
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in both PT-BR and EN when possible.
+        Preencha em PT-BR e EN quando possivel.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or opportunity / Problema ou oportunidade
+      description: Explain the need behind the request.
+      placeholder: |
+        EN: What problem should this solve?
+        PT-BR: Que problema isso deve resolver?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution / Solucao proposta
+      description: Describe the feature or improvement you want.
+      placeholder: |
+        EN: Describe the desired behavior.
+        PT-BR: Descreva o comportamento desejado.
+    validations:
+      required: true
+  - type: textarea
+    id: use_case
+    attributes:
+      label: Use case / Caso de uso
+      placeholder: |
+        EN: How would this be used in practice?
+        PT-BR: Como isso seria usado na pratica?
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered / Alternativas consideradas
+      placeholder: Existing workarounds, rejected options, or related tools.
+    validations:
+      required: false
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context / Contexto adicional
+      placeholder: Links, mockups, references, or constraints.

@@ -1,0 +1,12 @@
+# CODEOWNERS - Default reviewers for pull requests
+
+# All code and documentation
+* @freelogicbr
+
+# CI/CD
+.github/workflows/ @freelogicbr
+
+# Docker & infrastructure
+Dockerfile @freelogicbr
+docker-compose.yml @freelogicbr
+docker/ @freelogicbr

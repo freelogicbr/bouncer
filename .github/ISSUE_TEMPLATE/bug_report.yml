@@ -1,0 +1,76 @@
+name: "Bug Report / Relatorio de Bug"
+description: "Report a defect with reproducible details / Reporte um defeito com detalhes reproduziveis"
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill in both PT-BR and EN when possible.
+        Preencha em PT-BR e EN quando possivel.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary / Resumo
+      description: Describe the problem clearly in PT-BR and/or EN.
+      placeholder: |
+        EN: Clear summary of the bug.
+        PT-BR: Resumo claro do bug.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce / Passos para reproduzir
+      description: List the exact steps needed to reproduce the issue.
+      placeholder: |
+        1. Go to ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior / Comportamento esperado
+      placeholder: |
+        EN: What should have happened?
+        PT-BR: O que deveria ter acontecido?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior / Comportamento atual
+      placeholder: |
+        EN: What happened instead?
+        PT-BR: O que aconteceu de fato?
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system / Sistema operacional
+      placeholder: "Ubuntu 24.04"
+    validations:
+      required: true
+  - type: input
+    id: python_version
+    attributes:
+      label: Python version / Versao do Python
+      placeholder: "3.12"
+    validations:
+      required: false
+  - type: input
+    id: project_version
+    attributes:
+      label: Project version / Versao do projeto
+      placeholder: "0.1.0"
+    validations:
+      required: false
+  - type: textarea
+    id: additional_context
+    attributes:
+      label: Additional context / Contexto adicional
+      placeholder: Logs, screenshots, related links, or other relevant details.

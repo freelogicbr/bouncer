@@ -1,12 +1,18 @@
 # Bouncer
 
+[![CI](https://github.com/freelogicbr/bouncer/actions/workflows/lint.yml/badge.svg)](https://github.com/freelogicbr/bouncer/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/freelogicbr/bouncer/blob/main/LICENSE)
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
+
+> **Status**: Proof of Concept / Pre-Alpha. Infrastructure only. Core functionality is not yet implemented.
+
 ## PT-BR / Português
 
-Bootstrap minimalista para uma ferramenta open-source de busca de código local-first com Python, MCP e uma instância externa de PostgreSQL com pgvector.
+Filtro de contexto local-first para busca de código. Concebido para reduzir o uso de tokens em LLMs sem perder relevância.
 
-### Status
+Será construído com Python, PostgreSQL e pgvector para manter o custo de API sob controle enquanto permite análise profunda do código.
 
-Este repositório contém a configuração inicial segura para publicação.
+**Nota**: Este repositório contém apenas a infraestrutura base e configuração. A funcionalidade central ainda está sendo desenvolvida.
 
 ### Requisitos
 
@@ -29,11 +35,11 @@ docker compose up --build
 
 ## EN / English
 
-Minimal bootstrap for an open-source, local-first code search tool built with Python, MCP, and an external PostgreSQL instance with pgvector.
+Local-first context filter for code search. Designed to reduce LLM token usage without losing relevance.
 
-### Status
+Will be built with Python, PostgreSQL, and pgvector to keep API costs under control while enabling deep code analysis.
 
-This repository contains the initial safe public bootstrap.
+**Note**: This repository contains only base infrastructure and configuration. Core functionality is still being developed.
 
 ### Requirements
 
