@@ -1,0 +1,27 @@
+# PT-BR: Orquestração de serviços / EN: Services orchestration
+services:
+  bouncer:
+    # PT-BR: Construção local / EN: Local build
+    build:
+      context: .
+    # PT-BR: Arquivo de variáveis de ambiente (local only) / EN: Environment variables file
+    env_file:
+      - .env
+    # PT-BR: Mapeamento de variáveis / EN: Variables mapping
+    environment:
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+    # PT-BR: Rede compartilhada com PostgreSQL / EN: Shared network with PostgreSQL
+    networks:
+      - pgvector_net
+    command: ["python", "-m", "bouncer"]
+
+# PT-BR: Redes externas / EN: External networks
+networks:
+  pgvector_net:
+    external: true
+    name: ${DOCKER_EXTERNAL_NETWORK}
+
