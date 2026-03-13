@@ -57,6 +57,8 @@ No MVP, o Bouncer deve oferecer quatro capacidades principais:
 
 ### 6.1 Premissas Técnicas Básicas
 
+O MVP será um único serviço MCP em Python, executado nativamente no sistema operacional do ambiente de desenvolvimento. Docker não faz parte do caminho principal do MVP.
+
 O MVP utilizará PostgreSQL com pgvector como armazenamento externo de vetores e metadados indexados.
 
 Os embeddings serão gerados localmente, sem uso de APIs externas, por um modelo pequeno o suficiente para execução em CPU em ambiente comum de desenvolvimento.
@@ -116,9 +118,11 @@ Arquivos marcados como alterados continuam elegíveis para busca, mas devem ser 
 
 ## 9. Unidade de Indexação
 
-No MVP, o trecho indexável principal será função ou método quando essa estrutura puder ser identificada com heurísticas leves.
+No MVP, o trecho indexável principal será função ou método, identificado via parsing AST da biblioteca padrão do Python (`ast`).
 
-Quando isso não for confiável, o sistema poderá usar segmentação textual simples como fallback. AST profunda multi-linguagem não faz parte do escopo inicial.
+A estrutura de parser deve nascer plugável, com interface interna e apenas `PythonParser` implementado no MVP.
+
+Funções aninhadas, classes como unidade própria, properties, lambdas e segmentação textual genérica ficam fora do escopo do MVP. Linguagens não suportadas devem retornar status explícito de `unsupported_language`.
 
 ## 10. Dependências e Vizinhança
 
@@ -140,18 +144,23 @@ O MVP deve expor um conjunto mínimo de ferramentas:
 - `get_neighbors`: contexto estrutural e relações diretas de chamada
 - `refresh_index`: reconstrução do índice de um arquivo
 - `mark_file_dirty`: marca um arquivo como potencialmente desatualizado
+- `remove_file`: remove um arquivo e seus dados do indice
 
 ## 12. Atualização do Índice
 
 No MVP, a atualização do índice será orientada por arquivo individual.
 
-Um processo externo, como script ou watcher local, será responsável por detectar mudanças, montar a fila e acionar o Bouncer arquivo por arquivo.
+Um script externo, acionado por hook `post-commit`, será responsável por detectar os arquivos afetados no último commit, montar a fila, marcar arquivos como `dirty`, chamar `refresh_index` arquivo por arquivo e chamar `remove_file` para arquivos deletados.
+
+Se `refresh_index` falhar para um arquivo, esse arquivo deve permanecer `dirty`. Retry, limite de tentativas e alerta são responsabilidade do script, não do Bouncer.
 
 Essa atualização não deve depender de interpretação por LLM.
 
 ### 12.1 `refresh_index`
 
-Quando um arquivo mudar, suas referências indexadas e embeddings associados podem ser reconstruídos integralmente para preservar consistência de posição e metadados.
+Quando um arquivo mudar, suas referências indexadas e embeddings associados devem ser reconstruídos integralmente para preservar consistência de posição e metadados.
+
+`refresh_index` assume conteúdo sintaticamente válido. Se o parse falhar, a operação retorna erro explícito e não atualiza o índice daquele arquivo.
 
 A resposta mínima por chamada deve incluir:
 
@@ -199,7 +208,7 @@ Cada referência indexada deve ter, no mínimo:
 - tipo do símbolo
 - linha inicial
 - linha final
-- hash ou fingerprint para detecção de mudança
+- flag de estado `dirty`, derivada do estado do arquivo (nao armazenada por referencia)
 - referências de chamadas de saída, quando detectáveis
 - referências de chamadas de entrada derivadas do índice, quando detectáveis
 

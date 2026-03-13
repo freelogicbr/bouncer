@@ -4,31 +4,43 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/freelogicbr/bouncer/blob/main/LICENSE)
 [![Python 3.12+](https://img.shields.io/badge/Python-3.12+-blue.svg)](https://www.python.org/)
 
-[Leia em Português](./README.pt-BR.md)
+[Leia em Portugues](./README.pt-BR.md)
 
 ---
 
 > **Status**: Proof of Concept / Pre-Alpha. Infrastructure only. Core functionality is not yet implemented.
 
-Local-first context filter for code search. Designed to reduce LLM token usage without losing relevance.
-
-Will be built with Python, PostgreSQL, and pgvector to keep API costs under control while enabling deep code analysis.
+Local-first code search and navigation tool for MCP agents. Designed to reduce LLM token usage by pointing agents to the right reference before they scan entire files.
 
 ### Requirements
 
-- Docker and Docker Compose
-- PostgreSQL instance with pgvector enabled
+- Python 3.12+
+- Git
+- PostgreSQL with pgvector enabled
+- A local Git workspace with Python code
 
-### Local Configuration
+### Setup
 
-1. Copy `.env.example` to `.env`.
-2. Replace placeholders with your local environment values.
-3. Ensure `DOCKER_EXTERNAL_NETWORK` matches the PostgreSQL network.
+```bash
+python3 -m pip install -e .[dev]
+```
+
+### Configuration
+
+Bouncer uses a TOML configuration file at `~/.config/bouncer/config.toml` to map workspace aliases to root paths. This path can be overridden via environment variable.
 
 ### Run
 
 ```bash
-docker compose up --build
+bouncer
+```
+
+### Development
+
+```bash
+make lint      # run ruff linter
+make format    # auto-format with ruff
+make test      # run tests
 ```
 
 ---

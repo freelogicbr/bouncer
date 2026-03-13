@@ -8,31 +8,43 @@
 
 ---
 
-> **Status**: Prova de Conceito / Pré-Alpha. Apenas infraestrutura. A funcionalidade central ainda não foi implementada.
+> **Status**: Prova de Conceito / Pre-Alpha. Apenas infraestrutura. A funcionalidade central ainda nao foi implementada.
 
-Filtro de contexto local-first para busca de código. Concebido para reduzir o uso de tokens em LLMs sem perder relevância.
-
-Será construído com Python, PostgreSQL e pgvector para manter o custo de API sob controle enquanto permite análise profunda do código.
+Ferramenta local-first de busca e navegacao de codigo para agentes MCP. Concebida para reduzir o uso de tokens em LLMs apontando agentes para a referencia correta antes de varrer arquivos inteiros.
 
 ### Requisitos
 
-- Docker e Docker Compose
-- Instância PostgreSQL com pgvector habilitado
+- Python 3.12+
+- Git
+- PostgreSQL com pgvector habilitado
+- Um workspace Git local com codigo Python
 
-### Configuração Local
-
-1. Copie `.env.example` para `.env`.
-2. Substitua os placeholders pelos valores do seu ambiente.
-3. Garanta que `DOCKER_EXTERNAL_NETWORK` corresponda à rede do PostgreSQL.
-
-### Execução
+### Instalacao
 
 ```bash
-docker compose up --build
+python3 -m pip install -e .[dev]
+```
+
+### Configuracao
+
+O Bouncer usa um arquivo de configuracao TOML em `~/.config/bouncer/config.toml` para mapear aliases de workspace para caminhos raiz. Esse caminho pode ser sobrescrito via variavel de ambiente.
+
+### Execucao
+
+```bash
+bouncer
+```
+
+### Desenvolvimento
+
+```bash
+make lint      # executar linter ruff
+make format    # formatar com ruff
+make test      # executar testes
 ```
 
 ---
 
 ## Agradecimentos
 
-Este projeto contou com a colaboração do Gemini, Claude e GPT no auxílio à estruturação de algoritmos e revisão de código.
+Este projeto contou com a colaboracao do Gemini, Claude e GPT no auxilio a estruturacao de algoritmos e revisao de codigo.

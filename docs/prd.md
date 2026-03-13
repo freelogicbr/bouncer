@@ -57,6 +57,8 @@ In the MVP, Bouncer must offer four main capabilities:
 
 ### 6.1 Basic Technical Assumptions
 
+The MVP will be a single MCP service in Python, running natively on the development environment's operating system. Docker is not part of the MVP's primary path.
+
 The MVP will use PostgreSQL with pgvector as the external storage for vectors and indexed metadata.
 
 Embeddings will be generated locally, without external APIs, by a model small enough to run on CPU in a typical development environment.
@@ -116,9 +118,11 @@ Files marked as changed remain eligible for search, but must be returned with re
 
 ## 9. Indexing Unit
 
-In the MVP, the main indexable unit will be a function or method when that structure can be identified through lightweight heuristics.
+In the MVP, the main indexable unit will be a function or method, identified via AST parsing using Python's standard library (`ast`).
 
-When that is not reliable, the system may use simple textual segmentation as a fallback. Deep multi-language AST parsing is out of scope for the initial version.
+The parser structure must be pluggable from the start, with an internal interface and only `PythonParser` implemented in the MVP.
+
+Nested functions, classes as standalone units, properties, lambdas, and generic textual segmentation are out of scope for the MVP. Unsupported languages must return an explicit `unsupported_language` status.
 
 ## 10. Dependencies and Neighborhood
 
@@ -140,18 +144,23 @@ The MVP must expose a minimal set of tools:
 - `get_neighbors`: structural context and direct call relationships
 - `refresh_index`: rebuild the index for a file
 - `mark_file_dirty`: mark a file as potentially outdated
+- `remove_file`: remove a file and its data from the index
 
 ## 12. Index Updates
 
 In the MVP, index updates will be file-oriented.
 
-An external process, such as a script or local watcher, will be responsible for detecting changes, building the queue, and calling Bouncer one file at a time.
+An external script, triggered by a `post-commit` hook, will be responsible for detecting affected files in the last commit, building the queue, marking files as `dirty`, calling `refresh_index` file by file, and calling `remove_file` for deleted files.
+
+If `refresh_index` fails for a file, that file must remain `dirty`. Retry logic, attempt limits, and alerting are the script's responsibility, not Bouncer's.
 
 This update process must not depend on LLM interpretation.
 
 ### 12.1 `refresh_index`
 
-When a file changes, its indexed references and associated embeddings may be rebuilt entirely to preserve positional consistency and metadata integrity.
+When a file changes, its indexed references and associated embeddings must be rebuilt entirely to preserve positional consistency and metadata integrity.
+
+`refresh_index` assumes syntactically valid content. If parsing fails, the operation returns an explicit error and does not update the index for that file.
 
 The minimum response for each call must include:
 
@@ -199,7 +208,7 @@ Each indexed reference must contain, at minimum:
 - symbol type
 - start line
 - end line
-- hash or fingerprint for change detection
+- dirty state flag, derived from the file's dirty state (not stored per reference)
 - outgoing call references, when detectable
 - incoming call references derived from the index, when detectable
 

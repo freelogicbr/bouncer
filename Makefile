@@ -3,7 +3,7 @@ PYTHON ?= python3
 .PHONY: install lint format test run
 
 install:
-	$(PYTHON) -m pip install .[dev]
+	$(PYTHON) -m pip install -e .[dev]
 
 lint:
 	$(PYTHON) -m ruff check .

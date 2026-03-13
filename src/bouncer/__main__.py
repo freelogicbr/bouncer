@@ -1,4 +1,4 @@
-"""Minimal entrypoint for the Bouncer container."""
+"""Minimal entrypoint for the Bouncer service."""
 
 
 def main() -> None:
