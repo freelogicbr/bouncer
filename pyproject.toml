@@ -34,7 +34,7 @@ Issues = "https://github.com/freelogicbr/bouncer/issues"
 bouncer = "bouncer.__main__:main"
 
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=82.0.1"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
